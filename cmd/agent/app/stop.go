@@ -8,19 +8,15 @@
 package app
 
 import (
-	"bytes"
 	"fmt"
 
-	"github.com/DataDog/datadog-agent/cmd/agent/common"
-	"github.com/DataDog/datadog-agent/pkg/api/util"
-	"github.com/DataDog/datadog-agent/pkg/config"
 	"github.com/spf13/cobra"
 )
 
 var (
 	stopCmd = &cobra.Command{
 		Use:   "stop",
-		Short: "Stop the Agent",
+		Short: "(DEPRECATED) Use \"kill\" to stop a running Agent",
 		Long:  ``,
 		RunE:  stop,
 	}
@@ -31,27 +27,7 @@ func init() {
 	AgentCmd.AddCommand(stopCmd)
 }
 
-func stop(*cobra.Command, []string) error {
-	// Global Agent configuration
-	err := common.SetupConfig(confFilePath)
-	if err != nil {
-		return fmt.Errorf("unable to set up global agent configuration: %v", err)
-	}
-	c := util.GetClient(false) // FIX: get certificates right then make this true
-
-	// Set session token
-	e := util.SetAuthToken()
-	if e != nil {
-		return e
-	}
-
-	urlstr := fmt.Sprintf("https://localhost:%v/agent/stop", config.Datadog.GetInt("cmd_port"))
-
-	_, e = util.DoPost(c, urlstr, "application/json", bytes.NewBuffer([]byte{}))
-	if e != nil {
-		return fmt.Errorf("Error stopping the agent: %v", e)
-	}
-
-	fmt.Println("Agent successfully stopped")
-	return nil
+func stop(cmd *cobra.Command, args []string) error {
+	fmt.Printf("The stop command is being deprecated.  Use \"agent kill\".\n\n")
+	return kill(cmd, args)
 }

@@ -1,0 +1,12 @@
+---
+deprecations:
+  - |
+    Begin deprecating "Agent start" and "Agent stop".  They are being replaced
+    by "run" and "kill", respectively.  Commands will continue to function,
+    with a deprecation notice
+other:
+  - |
+    Added new commands "run" and "kill" to the agent.  These commands replace
+    the "start" and "stop" commands, to reduce ambiguity with the service 
+    lifecycle commands
+
