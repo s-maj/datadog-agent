@@ -26,6 +26,7 @@ import (
 	"github.com/DataDog/datadog-agent/pkg/util"
 	"github.com/DataDog/datadog-agent/pkg/util/kubernetes/apiserver"
 	"github.com/DataDog/datadog-agent/pkg/version"
+	"github.com/DataDog/datadog-agent/cmd/cluster-agent/custommetrics"
 )
 
 // FIXME: move SetupAutoConfig and StartAutoConfig in their own package so we don't import cmd/agent
@@ -67,6 +68,7 @@ func init() {
 
 	ClusterAgentCmd.PersistentFlags().StringVarP(&confPath, "cfgpath", "c", "", "path to directory containing datadog-cluster.yaml")
 	ClusterAgentCmd.PersistentFlags().BoolVarP(&flagNoColor, "no-color", "n", false, "disable color output")
+	custommetrics.AddFlags(startCmd.Flags())
 }
 
 func start(cmd *cobra.Command, args []string) error {
@@ -149,6 +151,14 @@ func start(cmd *cobra.Command, args []string) error {
 
 	}
 
+	// Start the k8s custom metrics server
+	err = custommetrics.ValidateArgs(args)
+	if err != nil {
+		log.Error("Couldn't validate args for k8s custom metrics server, not starting it: ", err)
+	} else {
+		custommetrics.StartServer()
+	}
+
 	// Start the Service Mapper.
 	asc, err := apiserver.GetAPIClient()
 	if err != nil {
@@ -168,6 +178,7 @@ func start(cmd *cobra.Command, args []string) error {
 	<-signalCh
 
 	clusterAgent.Stop()
+	custommetrics.StopServer()
 	log.Info("See ya!")
 	log.Flush()
 	return nil
