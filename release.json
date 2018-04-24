@@ -1,6 +1,6 @@
 {
 	"nightly": {
-		"INTEGRATIONS_CORE_VERSION": "master",
+		"INTEGRATIONS_CORE_VERSION": "2d4bc4c3066f0b318e6c5c1feb3dce5876d43c29",
 		"TRACE_AGENT_VERSION": "master",
 		"PROCESS_AGENT_VERSION": "master",
 		"OMNIBUS_SOFTWARE_VERSION": "master",
