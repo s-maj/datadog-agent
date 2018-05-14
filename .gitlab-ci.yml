@@ -36,13 +36,13 @@ variables:
   S3_DSD6_URI: s3://dsd6-staging/linux
   RELEASE_VERSION: nightly
 
-before_script:
-  # We need to install go deps from within the GOPATH, which we set to / on builder images; that's because pointing
-  # GOPATH to the project folder would be too complex (we'd need to replicate the `src/github/project` scheme).
-  # So we copy the agent sources to / and bootstrap from there the vendor dependencies before running any job.
-  - rsync -azr --delete ./ $SRC_PATH
-  - cd $SRC_PATH
-  #- inv -e deps
+#before_script:
+#  # We need to install go deps from within the GOPATH, which we set to / on builder images; that's because pointing
+#  # GOPATH to the project folder would be too complex (we'd need to replicate the `src/github/project` scheme).
+#  # So we copy the agent sources to / and bootstrap from there the vendor dependencies before running any job.
+#  - rsync -azr --delete ./ $SRC_PATH
+#  - cd $SRC_PATH
+#  #- inv -e deps
 
 
 #
@@ -53,11 +53,9 @@ before_script:
 # WIP to iterate faster
 fast_e2e:
   stage: source_test
-  image: 486234852809.dkr.ecr.us-east-1.amazonaws.com/ci/datadog-agent-builders/deb_x64:latest
+  image: 486234852809.dkr.ecr.us-east-1.amazonaws.com/ci/datadog-agent-builders/deploy:v375986-9550851
   tags: [ "runner:main", "size:large" ]
   script:
-    - curl -fL https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 -o /usr/local/bin/jq
-    - chmod +x /usr/local/bin/jq
     - ./test/e2e/scripts/remote/00-entrypoint-gitlab.sh
 
 
