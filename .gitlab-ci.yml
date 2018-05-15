@@ -56,7 +56,7 @@ fast_e2e:
   image: 486234852809.dkr.ecr.us-east-1.amazonaws.com/ci/datadog-agent-builders/deploy:v375986-9550851
   tags: [ "runner:main", "size:large" ]
   script:
-    - ./test/e2e/scripts/remote/00-entrypoint-gitlab.sh
+    - ./test/e2e/scripts/setup-instance/00-entrypoint-gitlab.sh
 
 
 #
