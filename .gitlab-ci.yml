@@ -53,7 +53,7 @@ variables:
 # WIP to iterate faster
 fast_e2e:
   stage: source_test
-  image: 486234852809.dkr.ecr.us-east-1.amazonaws.com/ci/datadog-agent-builders/deploy:v375986-9550851
+  image: 486234852809.dkr.ecr.us-east-1.amazonaws.com/ci/datadog-agent-builders/deploy:latest
   tags: [ "runner:main", "size:large" ]
   script:
     - ./test/e2e/scripts/setup-instance/00-entrypoint-gitlab.sh
