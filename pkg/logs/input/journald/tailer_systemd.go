@@ -138,11 +138,7 @@ func (t *Tailer) shouldDrop(entry *sdjournal.JournalEntry) bool {
 // A journal entry has different fields that may vary depending on its nature,
 // for more information, see https://www.freedesktop.org/software/systemd/man/systemd.journal-fields.html.
 func (t *Tailer) toMessage(entry *sdjournal.JournalEntry) message.Message {
-	return message.New(
-		t.getContent(entry),
-		t.getOrigin(entry),
-		t.getSeverity(entry),
-	)
+	return message.New(t.getContent(entry), t.getOrigin(entry), nil)
 }
 
 // getContent returns all the fields of the entry as a json-string,
@@ -207,13 +203,4 @@ func (t *Tailer) getApplicationName(entry *sdjournal.JournalEntry) string {
 		}
 	}
 	return ""
-}
-
-// getSeverity returns the severity of the journal entry
-func (t *Tailer) getSeverity(entry *sdjournal.JournalEntry) []byte {
-	var severity []byte
-	if priority, exists := entry.Fields[sdjournal.SD_JOURNAL_FIELD_PRIORITY]; exists {
-		severity = []byte(priority)
-	}
-	return severity
 }
