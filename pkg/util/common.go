@@ -210,11 +210,5 @@ func CreateHTTPTransport() *http.Transport {
 			transport.Proxy = GetProxyTransportFunc(proxies)
 		}
 	}
-
-	if os.Getenv("http_proxy") != "" || os.Getenv("https_proxy") != "" ||
-		os.Getenv("HTTP_PROXY") != "" || os.Getenv("HTTPS_PROXY") != "" {
-		log.Warn("Env variables 'http_proxy' and 'https_proxy' are not enforced by the agent, please use the configuration file.")
-	}
-
 	return transport
 }

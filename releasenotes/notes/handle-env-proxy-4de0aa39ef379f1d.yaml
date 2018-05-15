@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The agent now support setting/overwriting proxy URLs through environment
+    variables (HTTP_PROXY, HTTPS_PROXY and NO_PROXY).
